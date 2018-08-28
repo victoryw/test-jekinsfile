@@ -12,14 +12,19 @@ pipeline {
 
         stage('CHECKOUT') {
             steps {
-                 git  url: "${env.SCM_SCRIPT_URL}", branch: "${env.SCM_SCRIPT_BRANCH}"
-                 git  url: "${env.SCM_TEST_URL}", branch: "${env.SCM_TEST_BRANCH}"
+              dir('script') {
+                git  url: "${env.SCM_SCRIPT_URL}", branch: "${env.SCM_SCRIPT_BRANCH}"
+              }
+
+              dir('tst') {
+                git  url: "${env.SCM_TEST_URL}", branch: "${env.SCM_TEST_BRANCH}"
+              }
             }
         }
 
         stage('TEST') {
             steps {
-                 sh "./test.sh"
+                 sh "./scirpt/test.sh"
              }
         }
    }
